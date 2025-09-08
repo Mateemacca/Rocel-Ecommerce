@@ -4,6 +4,7 @@ import { ContainerFilter } from "../components/products/ContainerFilter";
 import { prepareProducts } from "../helpers";
 import { useFilteredProducts } from "../hooks";
 import { Pagination } from "../components/shared/Pagination";
+import { Loader } from "../components/shared/Loader";
 
 export const MueblesPage = () => {
   const [page, setPage] = useState(1);
@@ -31,8 +32,8 @@ export const MueblesPage = () => {
         />
 
         {isLoading ? (
-          <div className="col-span-2 flex items-center justify-center h-[500px]">
-            <p className="text-2xl">Cargando</p>
+          <div className="col-span-2 xl:col-span-4 flex items-center justify-center">
+            <Loader />
           </div>
         ) : (
           <div className="col-span-2 lg:cols-span-2 xl:col-span-4 flex flex-col gap-12">
