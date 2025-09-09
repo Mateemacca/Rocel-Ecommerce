@@ -50,12 +50,9 @@ export const CardProduct = ({
           position: "top-center",
         });
       } else {
-        toast.error(
-          "No puedes agregar más de la cantidad disponible en stock",
-          {
-            position: "top-center",
-          }
-        );
+        toast.error("No podes agregar más de la cantidad disponible en stock", {
+          position: "top-center",
+        });
       }
     } else {
       toast.error("Producto agotado", {

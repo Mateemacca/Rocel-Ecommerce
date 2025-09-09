@@ -95,7 +95,7 @@ export const MueblePage = () => {
   //Funcion para agregar al carrito
   const addToCart = () => {
     if (selectedVariant) {
-      addItem({
+      const wasAdded = addItem({
         variantId: selectedVariant.id,
         productId: product?.id || "",
         name: product?.name || "",
@@ -106,13 +106,22 @@ export const MueblePage = () => {
         quantity: count,
         stock: selectedVariant?.stock || 0,
       });
-      toast.success("Producto agregado al carrito", { position: "top-center" });
+      if (wasAdded) {
+        toast.success("Producto agregado al carrito", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("No podes agregar más de la cantidad disponible en stock", {
+          position: "top-center",
+        });
+      }
     }
   };
+
   //Funcion para comprar ahora
   const buyNow = () => {
     if (selectedVariant) {
-      addItem({
+      const wasAdded = addItem({
         variantId: selectedVariant.id,
         productId: product?.id || "",
         name: product?.name || "",
@@ -123,7 +132,13 @@ export const MueblePage = () => {
         quantity: count,
         stock: selectedVariant?.stock || 0,
       });
-      navigate("/checkout");
+      if (wasAdded) {
+        navigate("/checkout");
+      } else {
+        toast.error("No podes agregar más de la cantidad disponible en stock", {
+          position: "top-center",
+        });
+      }
     }
   };
 
