@@ -3,8 +3,16 @@ import { navbarLinks } from "../../constants/links";
 import { HiOutlineSearch, HiOutlineShoppingBag } from "react-icons/hi";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { Logo } from "./Logo";
+import { useGlobalStore } from "../../store/global.store";
+import { useCartStore } from "../../store/cart.store";
 
 export const Navbar = () => {
+  const totalItemsInCart = useCartStore((state) => state.totalItemsInCart);
+  const openSheet = useGlobalStore((state) => state.openSheet);
+  const setActiveNavMobile = useGlobalStore(
+    (state) => state.setActiveNavMobile
+  );
+
   return (
     <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
       <Logo />
@@ -24,7 +32,7 @@ export const Navbar = () => {
         ))}
       </nav>
       <div className="flex gap-5 items-center">
-        <button>
+        <button onClick={() => openSheet("search")}>
           <HiOutlineSearch size={25} />
         </button>
         <div className="relative">
@@ -33,17 +41,17 @@ export const Navbar = () => {
             to="/account"
             className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold"
           >
-            R
+            M
           </Link>
         </div>
-        <button className="relative">
+        <button className="relative" onClick={() => openSheet("cart")}>
           <span className="absolute -bottom-2 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full">
-            0
+            {totalItemsInCart}
           </span>
           <HiOutlineShoppingBag size={25} />
         </button>
       </div>
-      <button className="md:hidden">
+      <button className="md:hidden" onClick={() => setActiveNavMobile(true)}>
         <FaBarsStaggered size={25} />
       </button>
     </header>
