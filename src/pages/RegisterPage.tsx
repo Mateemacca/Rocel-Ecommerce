@@ -1,29 +1,13 @@
 import { Link, Navigate } from "react-router-dom";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegister, useUser } from "../hooks";
 import { TbLoader2 } from "react-icons/tb";
 import { Loader } from "../components/shared/Loader";
-
-export const userRegisterSchema = z.object({
-  email: z.string().email("Email invalido"),
-  password: z
-    .string()
-    .min(6, "La contraseña debe tener al menos 6 caracteres")
-    .max(100),
-  fullName: z
-    .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(100),
-  phone: z
-    .string()
-    .min(10, "Numero de telefono invalido")
-    .max(10, "El numero de telefono no debe exceder los 10 caracteres")
-    .optional(),
-});
-
-export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>;
+import {
+  userRegisterSchema,
+  type UserRegisterFormValues,
+} from "../lib/validators";
 
 export const Registerpage = () => {
   const {

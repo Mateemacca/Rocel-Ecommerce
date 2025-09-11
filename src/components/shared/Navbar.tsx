@@ -42,7 +42,7 @@ export const Navbar = () => {
           <HiOutlineSearch size={25} />
         </button>
         {isLoading ? (
-          <TbLoader2 className="animate-spin" size={60} />
+          <TbLoader2 className="animate-spin" size={40} />
         ) : session ? (
           <div className="relative">
             {/* User Nav */}
