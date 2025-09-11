@@ -44,3 +44,33 @@ export const prepareProducts = (products: Product[]) => {
     };
   });
 };
+
+// Funcion para formatear la fecha a formato 3 de enero de 2025
+
+export const formatDateLong = (date: string): string => {
+  const dateObject = new Date(date);
+  return dateObject.toLocaleDateString("es-AR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+// Funcion para obtener el estado del pedido en espa;ol
+
+export const getStatus = (status: string): string => {
+  switch (status) {
+    case "Pending":
+      return "Pendiente";
+    case "Paid":
+      return "Pagado";
+    case "Shipped":
+      return "Enviado";
+    case "Delivered":
+      return "Entregado";
+    case "Cancelled":
+      return "Cancelado";
+    default:
+      return status;
+  }
+};

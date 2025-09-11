@@ -5,7 +5,7 @@ import { FaBarsStaggered, FaRegUser } from "react-icons/fa6";
 import { Logo } from "./Logo";
 import { useGlobalStore } from "../../store/global.store";
 import { useCartStore } from "../../store/cart.store";
-import { useUser } from "../../hooks";
+import { useCustomer, useUser } from "../../hooks";
 import { TbLoader2 } from "react-icons/tb";
 
 export const Navbar = () => {
@@ -18,6 +18,8 @@ export const Navbar = () => {
   const { session, isLoading } = useUser();
 
   const userId = session?.user?.id;
+
+  const { data: customer } = useCustomer(userId!);
 
   return (
     <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
@@ -50,7 +52,7 @@ export const Navbar = () => {
               to="/account"
               className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold"
             >
-              M
+              {customer && customer.full_name[0].toUpperCase()}
             </Link>
           </div>
         ) : (

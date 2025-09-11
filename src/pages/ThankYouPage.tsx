@@ -1,14 +1,28 @@
-import { Link, useParams } from "react-router-dom";
-import { useOrder } from "../hooks";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useOrder, useUser } from "../hooks";
 import { Loader } from "../components/shared/Loader";
 import { CiCircleCheck } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa6";
 import { formatPrice } from "../helpers";
+import { useEffect } from "react";
+import { supabase } from "../supabase/client";
 
 export const ThankYouPage = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data, isLoading, isError } = useOrder(Number(id));
+
+  const { isLoading: isLoadingSession } = useUser();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_OUT" || !session) {
+        navigate("/login");
+      }
+    });
+  }, [navigate]);
 
   if (isError) return <div>Error al cargar el pedido</div>;
 
@@ -33,7 +47,7 @@ export const ThankYouPage = () => {
         </Link>
       </header>
       <main className="container flex-1 flex flex-col items-center gap-10">
-        {isLoading || !data ? (
+        {isLoading || !data || isLoadingSession ? (
           <Loader />
         ) : (
           <>
