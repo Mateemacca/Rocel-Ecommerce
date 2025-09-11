@@ -1,4 +1,5 @@
 import z from "zod";
+import type { JSONContent } from "@tiptap/react";
 
 export const userRegisterSchema = z.object({
   email: z.string().email("Email invalido"),
@@ -43,3 +44,60 @@ export const addressSchema = z.object({
 
 export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>;
 export type AddressFormValues = z.infer<typeof addressSchema>;
+
+const isContentEmpty = (value: JSONContent): boolean => {
+  if (!value || !Array.isArray(value.content) || value.content.length === 0) {
+    return true;
+  }
+  return !value.content.some((node) => {
+    if (!node.content || !Array.isArray(node.content)) return false;
+    return node.content.some(
+      (textNode) =>
+        textNode.type === "text" && textNode.text && textNode.text.trim() !== ""
+    );
+  });
+};
+
+export const productSchema = z.object({
+  name: z.string().min(1, "El nombre del producto es obligatorio"),
+  brand: z.string().min(1, "La marca del producto es obligatoria"),
+  slug: z
+    .string()
+    .min(1, "El slug del producto es obligatorio")
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "El slug solo puede contener letras minusculas, numeros y guiones"
+    ),
+  features: z.array(
+    z.object({
+      value: z.string().min(1, "El valor de la caracteristica es obligatorio"),
+    })
+  ),
+
+  description: z.custom<JSONContent>(
+    (value): value is JSONContent => !isContentEmpty(value as JSONContent),
+    {
+      message: "La descripcion no puede estar vacia",
+    }
+  ),
+  variants: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        stock: z.number().min(1, "El stock debe ser al menos 1"),
+        price: z.number().min(1, "El precio debe ser al menos 1"),
+        storage: z.string().min(1, "El almacenamiento es requerido"),
+        color: z
+          .string()
+          .regex(
+            /^(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})|(rgb|hsl)a?\(\s*([0-9]{1,3}\s*,\s*){2}[0-9]{1,3}\s*(,\s*(0|1|0?\.\d+))?\s*\))$/,
+            "El color debe ser un valor válido en formato hexadecimal, RGB o HSL"
+          ),
+        colorName: z.string().min(1, "El nombre del color es obligatorio"),
+      })
+    )
+    .min(1, "Debe haber al menos una variante de producto"),
+  images: z.array(z.any()).min(1, "Tiene que haber al menos una imagen"),
+});
+
+export type ProductFormValues = z.infer<typeof productSchema>;
