@@ -1,6 +1,7 @@
 export * from "./Sidebar";
 
 //Ordenes
+export * from "./orders/TableOrdersAdmin";
 
 //Productos
 export * from "./products/TableProduct";
