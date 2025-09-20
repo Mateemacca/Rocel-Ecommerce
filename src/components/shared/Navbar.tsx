@@ -22,7 +22,7 @@ export const Navbar = () => {
   const { data: customer } = useCustomer(userId!);
 
   return (
-    <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
+    <header className="bg-white text-gray-800 py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
       <Logo />
       <nav className="space-x-5 hidden md:flex">
         {navbarLinks.map((link) => (
@@ -31,8 +31,8 @@ export const Navbar = () => {
             to={link.href}
             className={({ isActive }) =>
               `${
-                isActive ? "text-cyan-600 underline" : ""
-              } transition-all duration-300 font-medium hover:text-cyan-600 hover:underline`
+                isActive ? "font-semibold text-black underline" : ""
+              } transition-all duration-300 font-medium hover:font-semibold hover:text-black hover:underline`
             }
           >
             {link.title}

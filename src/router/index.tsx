@@ -16,6 +16,7 @@ import {
   OrderUserPage,
   Registerpage,
   ThankYouPage,
+  NotFoundPage, // 👈 tu página 404
 } from "../pages";
 import { ClientLayout } from "../layouts/ClientLayout";
 import { DashboardLayout } from "../layouts/DashboardLayout";
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "*", // 👈 cualquier ruta no encontrada dentro de "/"
+        element: <NotFoundPage />,
+      },
     ],
   },
   {
@@ -105,6 +110,14 @@ export const router = createBrowserRouter([
         path: "ordenes/:id",
         element: <DashboardOrderPage />,
       },
+      {
+        path: "*", // 👈 rutas inexistentes dentro de dashboard
+        element: <NotFoundPage />,
+      },
     ],
+  },
+  {
+    path: "*", // 👈 catch-all global
+    element: <NotFoundPage />,
   },
 ]);
